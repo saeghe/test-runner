@@ -1,4 +1,54 @@
 #!/usr/bin/env php
 <?php
 
-echo 'hello world';
+$testsDirectory = $_SERVER['PWD']  . '/Tests/';
+$allFiles = function ($directory) {
+    $files = [];
+    $items = scandir($directory);
+
+    foreach ($items as $key => $value) {
+        $path = realpath($directory . DIRECTORY_SEPARATOR . $value);
+
+        if (!is_dir($path)) {
+            $files[] = $path;
+        }
+    }
+
+    return $files;
+};
+
+$testFiles = $allFiles($testsDirectory);
+
+array_walk(
+    $testFiles,
+    function ($filePath) {
+        require_once $filePath;
+    }
+);
+
+function test(string $title, Closure $case, ?Closure $before = null, ?Closure $after = null)
+{
+    try {
+        $beforeHookOutput = $before ? call_user_func($before) : null;
+
+        $reflection = new ReflectionFunction($case);
+        if ($reflection->getNumberOfParameters() > 1) {
+            $caseOutput = call_user_func($case, ...$beforeHookOutput);
+        } else {
+            $caseOutput = call_user_func($case, $beforeHookOutput);
+        }
+
+        if ($after) {
+            $reflection = new ReflectionFunction($after);
+            if ($reflection->getNumberOfParameters() > 1) {
+                call_user_func($after, ...$caseOutput);
+            } else {
+                call_user_func($after, $caseOutput);
+            }
+        }
+        echo "✅ $title" . PHP_EOL;
+    } catch (AssertionError $exception) {
+        $message = $title . ': ' . $exception->getMessage();
+        echo "❌ $message" . PHP_EOL;
+    }
+}
