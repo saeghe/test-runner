@@ -1,8 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-$testsDirectory = $_SERVER['PWD']  . '/Tests/';
-$allFiles = function ($directory) {
+$allFiles = function ($directory) use (&$allFiles) {
     $files = [];
     $items = scandir($directory);
 
@@ -11,22 +10,43 @@ $allFiles = function ($directory) {
 
         if (!is_dir($path)) {
             $files[] = $path;
+        } else if ($value != "." && $value != "..") {
+            $files = array_merge($files, $allFiles($path));
         }
     }
 
     return $files;
 };
 
-$testFiles = $allFiles($testsDirectory);
+$testsDirectory = $_SERVER['PWD']  . '/Tests/';
+$assertions = $allFiles(__DIR__ . '/Source/Assertions/');
+$assertions = array_filter($assertions, function ($filePath) {
+    return str_ends_with($filePath, '.php');
+});
+requireFiles($assertions);
 
-array_walk(
-    $testFiles,
-    function ($filePath) {
-        require_once $filePath;
-    }
-);
+$files = $allFiles($testsDirectory);
+$regularFiles = array_filter($files, function ($filePath) {
+    return str_ends_with($filePath, '.php') && ! str_ends_with($filePath, 'Test.php');
+});
+$testFiles = array_filter($files, function ($filePath) {
+    return str_ends_with($filePath, 'Test.php');
+});
 
-function test(string $title, Closure $case, ?Closure $before = null, ?Closure $after = null)
+requireFiles($regularFiles);
+requireFiles($testFiles);
+
+function requireFiles($filePaths)
+{
+    array_walk(
+        $filePaths,
+        function ($filePath) {
+            require_once $filePath;
+        }
+    );
+}
+
+function test(string $title, Closure $case, ?Closure $before = null, ?Closure $after = null, ?Closure $finally = null)
 {
     try {
         $beforeHookOutput = $before ? call_user_func($before) : null;
@@ -46,9 +66,23 @@ function test(string $title, Closure $case, ?Closure $before = null, ?Closure $a
                 call_user_func($after, $caseOutput);
             }
         }
-        echo "✅ $title" . PHP_EOL;
+        success($title);
     } catch (AssertionError $exception) {
         $message = $title . ': ' . $exception->getMessage();
-        echo "❌ $message" . PHP_EOL;
+        error($message);
+    } finally {
+        if ($finally) {
+            call_user_func($finally);
+        }
     }
+}
+
+function success($message)
+{
+    echo "✅ $message" . PHP_EOL;
+}
+
+function error($message)
+{
+    echo "❌ $message" . PHP_EOL;
 }
