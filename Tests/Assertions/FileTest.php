@@ -2,7 +2,7 @@
 
 namespace Tests\Assertions;
 
-use TestRunner\Assertions\File;
+use Saeghe\TestRunner\Assertions\File;
 
 test(
     title: 'it should check if file exists',

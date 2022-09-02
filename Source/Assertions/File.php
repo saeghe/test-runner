@@ -1,6 +1,6 @@
 <?php
 
-namespace TestRunner\Assertions\File;
+namespace Saeghe\TestRunner\Assertions\File;
 
 function assertExists($path, $message = null)
 {
