@@ -29,8 +29,11 @@ $files = $allFiles($testsDirectory);
 $regularFiles = array_filter($files, function ($filePath) {
     return str_ends_with($filePath, '.php') && ! str_ends_with($filePath, 'Test.php');
 });
-$testFiles = array_filter($files, function ($filePath) {
-    return str_ends_with($filePath, 'Test.php');
+
+$filter = getopt('', ['filter::'])['filter'] ?? '';
+
+$testFiles = array_filter($files, function ($filePath) use ($filter) {
+    return str_contains($filePath, $filter) && str_ends_with($filePath, 'Test.php');
 });
 
 requireFiles($regularFiles);
