@@ -5,7 +5,7 @@
  * Because we want to make sure the regular file is loaded before this file
  * Otherwise it tests nothing
  */
-namespace Tests\TestThatNeedsRegularFileTest;
+namespace Tests\ATestThatNeedsRegularFileTest;
 
 use function Tests\RegularFile\returnTrue;
 
