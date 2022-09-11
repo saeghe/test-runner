@@ -7,16 +7,16 @@ use Saeghe\TestRunner\Assertions\File;
 test(
     title: 'it should check if file exists',
     case: function () {
-        File\assertExists(__FILE__, 'If you see this message, it means assertExists is not working properly!');
-        File\assertExists(__DIR__ .'/ThisFileIsNotExists.txt', 'If you see this message, it means assertExists is working properly.');
+        File\assert_exists(__FILE__, 'If you see this message, it means assertExists is not working properly!');
+        File\assert_exists(__DIR__ .'/ThisFileIsNotExists.txt', 'If you see this message, it means assertExists is working properly.');
     }
 );
 
 test(
     title: 'it should check content of the file',
     case: function ($file, $content) {
-        File\assertContent($file, $content, 'If you see this message, it seems assertContent is not working properly!');
-        File\assertContent($file, $content . 'addition', 'If you see this message, it seems assertContent is working properly.');
+        File\assert_content($file, $content, 'If you see this message, it seems assertContent is not working properly!');
+        File\assert_content($file, $content . 'addition', 'If you see this message, it seems assertContent is working properly.');
 
         return $file;
     },
