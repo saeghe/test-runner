@@ -1,7 +1,7 @@
 {
   "map": {
     "Saeghe\\TestRunner": "Source",
-    "tests": "Tests"
+    "Tests": "Tests"
   },
   "executables": {
     "test-runner": "run"
