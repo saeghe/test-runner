@@ -5,12 +5,6 @@
             "repo": "cli",
             "version": "v2.0.0",
             "hash": "1c4c0fb"
-        },
-        "git@github.com:saeghe\/test-runner.git": {
-            "owner": "saeghe",
-            "repo": "test-runner",
-            "version": "v1.0.0",
-            "hash": "c59481d"
         }
     }
 }
