@@ -1,3 +1,16 @@
 {
-    "packages": []
+    "packages": {
+        "https:\/\/github.com\/saeghe\/cli.git": {
+            "owner": "saeghe",
+            "repo": "cli",
+            "version": "development",
+            "hash": "baada89ede62da443c06079e0be06c7e9147e4ee"
+        },
+        "git@github.com:saeghe\/test-runner.git": {
+            "owner": "saeghe",
+            "repo": "test-runner",
+            "version": "development",
+            "hash": "954c2e07333b1764744423955f7fcf16b0430e9c"
+        }
+    }
 }

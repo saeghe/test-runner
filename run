@@ -1,6 +1,16 @@
 #!/usr/bin/env php
 <?php
 
+// These lines are required to let Saeghe runs test since we can not use `build` on submodules
+if (isset($argv[1]) && $argv[1] === 'saeghe') {
+    require_once __DIR__ . '/../cli/Source/IO/Read.php';
+    require_once __DIR__ . '/../cli/Source/IO/Write.php';
+}
+
+use function Saeghe\Cli\IO\Read\parameter;
+use function Saeghe\Cli\IO\Write\error;
+use function Saeghe\Cli\IO\Write\line;
+
 $allFiles = function ($directory) use (&$allFiles) {
     $files = [];
     $items = scandir($directory);
@@ -18,7 +28,7 @@ $allFiles = function ($directory) use (&$allFiles) {
     return $files;
 };
 
-$testsDirectory = $_SERVER['PWD']  . '/Tests/';
+$testsDirectory = $_SERVER['PWD']  . '/' . parameter('directory', 'Tests') . '/';
 $assertions = $allFiles(__DIR__ . '/Source/Assertions/');
 $assertions = array_filter($assertions, function ($filePath) {
     return str_ends_with($filePath, '.php');
@@ -30,27 +40,20 @@ $regularFiles = array_filter($files, function ($filePath) {
     return str_ends_with($filePath, '.php') && ! str_ends_with($filePath, 'Test.php');
 });
 
-$filter = getopt('', ['filter::'])['filter'] ?? '';
+$filter = parameter('filter', '');
 
 $testFiles = array_filter($files, function ($filePath) use ($filter) {
     return str_contains($filePath, $filter) && str_ends_with($filePath, 'Test.php');
 });
 
-requireFiles($regularFiles);
-requireFiles($testFiles);
-
-function requireFiles($filePaths)
-{
-    array_walk(
-        $filePaths,
-        function ($filePath) {
-            require_once $filePath;
-        }
-    );
-}
+static $statistics = ['cases' => 0, 'success' => 0, 'failed' => 0];
 
 function test(string $title, Closure $case, ?Closure $before = null, ?Closure $after = null, ?Closure $finally = null)
 {
+    global $statistics;
+
+    $statistics['cases']++;
+
     try {
         $beforeHookOutput = $before ? call_user_func($before) : null;
 
@@ -69,10 +72,12 @@ function test(string $title, Closure $case, ?Closure $before = null, ?Closure $a
                 call_user_func($after, $caseOutput);
             }
         }
-        success($title);
+        $statistics['success']++;
+        line("✅ $title");
     } catch (AssertionError $exception) {
-        $message = $title . ': ' . $exception->getMessage();
-        error($message);
+        $statistics['failed']++;
+        line("❌ $title: ");
+        error($exception->getMessage());
     } finally {
         if ($finally) {
             call_user_func($finally);
@@ -80,12 +85,17 @@ function test(string $title, Closure $case, ?Closure $before = null, ?Closure $a
     }
 }
 
-function success($message)
+requireFiles($regularFiles);
+requireFiles($testFiles);
+
+function requireFiles($filePaths)
 {
-    echo "✅ $message" . PHP_EOL;
+    array_walk(
+        $filePaths,
+        function ($filePath) {
+            require_once $filePath;
+        }
+    );
 }
 
-function error($message)
-{
-    echo "❌ $message" . PHP_EOL;
-}
+line(PHP_EOL . "cases: {$statistics['cases']}, success: {$statistics['success']}, failed: {$statistics['failed']}");

@@ -1,9 +1,17 @@
 {
-  "map": {
-    "Saeghe\\TestRunner": "Source",
-    "Tests": "Tests"
-  },
-  "executables": {
-    "test-runner": "run"
-  }
+    "map": {
+        "Saeghe\\TestRunner": "Source",
+        "Tests": "Tests"
+    },
+    "entry-points": [
+        "run"
+    ],
+    "excludes": [],
+    "executables": {
+        "test-runner": "run"
+    },
+    "packages-directory": "Packages",
+    "packages": {
+        "https:\/\/github.com\/saeghe\/cli.git": "development"
+    }
 }

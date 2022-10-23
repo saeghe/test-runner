@@ -2,6 +2,8 @@
 
 namespace Tests\FinallyHookTest;
 
+use function Saeghe\Cli\IO\Write\success;
+
 test(
     title: 'it should call finally hook for success',
     case: function () {
