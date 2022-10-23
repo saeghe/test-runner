@@ -12,6 +12,6 @@
     },
     "packages-directory": "Packages",
     "packages": {
-        "https:\/\/github.com\/saeghe\/cli.git": "development"
+        "https:\/\/github.com\/saeghe\/cli.git": "v2.0.0"
     }
 }
