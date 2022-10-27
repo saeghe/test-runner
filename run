@@ -5,6 +5,7 @@
 if (isset($argv[1]) && $argv[1] === 'saeghe') {
     require_once __DIR__ . '/../cli/Source/IO/Read.php';
     require_once __DIR__ . '/../cli/Source/IO/Write.php';
+    require_once __DIR__ . '/Source/Assertions/File.php';
 }
 
 use function Saeghe\Cli\IO\Read\parameter;
@@ -29,16 +30,8 @@ $allFiles = function ($directory) use (&$allFiles) {
 };
 
 $testsDirectory = $_SERVER['PWD']  . '/' . parameter('directory', 'Tests') . '/';
-$assertions = $allFiles(__DIR__ . '/Source/Assertions/');
-$assertions = array_filter($assertions, function ($filePath) {
-    return str_ends_with($filePath, '.php');
-});
-requireFiles($assertions);
 
 $files = $allFiles($testsDirectory);
-$regularFiles = array_filter($files, function ($filePath) {
-    return str_ends_with($filePath, '.php') && ! str_ends_with($filePath, 'Test.php');
-});
 
 $filter = parameter('filter', '');
 
@@ -85,7 +78,6 @@ function test(string $title, Closure $case, ?Closure $before = null, ?Closure $a
     }
 }
 
-requireFiles($regularFiles);
 requireFiles($testFiles);
 
 function requireFiles($filePaths)

@@ -3,8 +3,14 @@
         "https:\/\/github.com\/saeghe\/cli.git": {
             "owner": "saeghe",
             "repo": "cli",
-            "version": "v2.0.0",
-            "hash": "1c4c0fb"
+            "version": "v2.1.0",
+            "hash": "59b0e31280ee50c771593b06aad33fa0e53a8b22"
+        },
+        "git@github.com:saeghe\/test-runner.git": {
+            "owner": "saeghe",
+            "repo": "test-runner",
+            "version": "v2.0.2",
+            "hash": "2819dd08ce6cc23a04843f8256bc4a9554de30c7"
         }
     }
 }
