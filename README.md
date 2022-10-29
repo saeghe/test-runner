@@ -15,3 +15,21 @@ saeghe add git@github.com:saeghe/test-runner.git
 ## Documentation
 
 All documents can be found under [documentations](https://saeghe.com/packages/test-runnerTest/documentations/getting-started)
+
+## Contributing
+
+Run following commands to prepare the test runner:
+
+```shell
+git clone git@github.com:saeghe/test-runner.git
+cd test-runner
+saeghe install
+saeghe build // or watch while you are developing
+```
+
+For running tests:
+
+```shell
+cd builds/development
+./run
+```

@@ -1,13 +1,6 @@
 #!/usr/bin/env php
 <?php
 
-// These lines are required to let Saeghe runs test since we can not use `build` on submodules
-if (isset($argv[1]) && $argv[1] === 'saeghe') {
-    require_once __DIR__ . '/../cli/Source/IO/Read.php';
-    require_once __DIR__ . '/../cli/Source/IO/Write.php';
-    require_once __DIR__ . '/Source/Assertions/File.php';
-}
-
 use function Saeghe\Cli\IO\Read\parameter;
 use function Saeghe\Cli\IO\Write\error;
 use function Saeghe\Cli\IO\Write\line;
