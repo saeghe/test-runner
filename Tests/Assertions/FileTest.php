@@ -29,6 +29,6 @@ test(
     },
     finally: function () {
         $file = __DIR__ . '/sample-file.txt';
-        shell_exec('rm -f ' . $file);
+        unlink($file);
     }
 );
