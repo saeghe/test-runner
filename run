@@ -22,7 +22,7 @@ $allFiles = function ($directory) use (&$allFiles) {
     return $files;
 };
 
-$testsDirectory = $_SERVER['PWD']  . '/' . parameter('directory', 'Tests') . '/';
+$testsDirectory = getcwd()  . '/' . parameter('directory', 'Tests') . '/';
 
 $files = $allFiles($testsDirectory);
 
