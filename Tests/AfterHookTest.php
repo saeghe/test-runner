@@ -45,7 +45,7 @@ test(
 test(
     title: 'it should not run the after hook for failed tests',
     case: function () {
-        assert(false, 'If you see me, it means everything is working fine ;)');
+        assert(false === true, 'If you see me, it means everything is working fine ;)');
 
         $a = 'foo';
         $b = 'bar';
@@ -53,6 +53,6 @@ test(
         return compact('a', 'b');
     },
     after: function () {
-        assert(false, 'You should not be here! After hook should not run for failed tests.');
+        assert(false === true, 'You should not be here! After hook should not run for failed tests.');
     }
 );
