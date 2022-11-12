@@ -9,5 +9,5 @@ function assert_false(bool $actual, string $message = null): bool
 
 function assert_true(bool $actual, string $message = null): bool
 {
-    return assert(true === $actual, $message);
+    return $actual === true || throw new \AssertionError($message);
 }

@@ -4,6 +4,8 @@ namespace Tests\Assertions;
 
 use Saeghe\TestRunner\Assertions\File;
 
+use function Saeghe\TestRunner\Assertions\Boolean\assert_true;
+
 test(
     title: 'it should check if file exists',
     case: function () {
@@ -11,9 +13,9 @@ test(
 
         try {
             File\assert_exists(__DIR__ .'/ThisFileIsNotExists.txt', 'assert_exists is not working properly!');
-            assert(false, 'assert_exists is not working properly!');
+            assert_true(false, 'assert_exists is not working properly!');
         } catch (\AssertionError $exception) {
-            assert('assert_exists is not working properly!' === $exception->getMessage(), 'assert_exists message is not working');
+            assert_true('assert_exists is not working properly!' === $exception->getMessage(), 'assert_exists message is not working');
         }
     }
 );
@@ -25,9 +27,9 @@ test(
 
         try {
             File\assert_content($file, $content . 'addition', 'File has some additions!');
-            assert(false, 'assert_content is not working properly!');
+            assert_true(false, 'assert_content is not working properly!');
         } catch (\AssertionError $exception) {
-            assert('File has some additions!' === $exception->getMessage(), 'assert_content message is not working');
+            assert_true('File has some additions!' === $exception->getMessage(), 'assert_content message is not working');
         }
 
         return $file;
