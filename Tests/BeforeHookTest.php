@@ -2,10 +2,12 @@
 
 namespace Tests\BeforeHookTest;
 
+use function Saeghe\TestRunner\Assertions\Boolean\assert_true;
+
 test(
     title: 'it should run the before hook',
     case: function ($variable) {
-        assert($variable === 'This is a variable from before hook', 'before hook is not working properly');
+        assert_true($variable === 'This is a variable from before hook', 'before hook is not working properly');
 
         return 'foo';
     },
@@ -17,7 +19,7 @@ test(
 test(
     title: 'it should unpack array data from before hook',
     case: function ($a, $b) {
-        assert($a === 'foo' && $b === 'bar', 'Before hook does not work with array unpacking!');
+        assert_true($a === 'foo' && $b === 'bar', 'Before hook does not work with array unpacking!');
     },
     before: function () {
         $a = 'foo';
@@ -30,7 +32,7 @@ test(
 test(
     title: 'it should not unpack the array when before hook sends array in one parameter',
     case: function ($array) {
-        assert($array['a'] === 'foo' && $array['b'] === 'bar', 'Before hook does not work with array return type!');
+        assert_true($array['a'] === 'foo' && $array['b'] === 'bar', 'Before hook does not work with array return type!');
     },
     before: function () {
         $a = 'foo';
