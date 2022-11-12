@@ -30,3 +30,27 @@ test(
         }
     }
 );
+
+test(
+    title: 'it should use a default message for assert_true',
+    case: function () {
+        try {
+            assert_true(false);
+            assert_true(false, 'assert_true for true is not working');
+        } catch (\AssertionError $exception) {
+            assert_true('false is not true.' === $exception->getMessage(), 'default message for assert_true is not working');
+        }
+    }
+);
+
+test(
+    title: 'it should use a default message for assert_false',
+    case: function () {
+        try {
+            assert_false(true);
+            assert_true(false, 'assert_true for true is not working');
+        } catch (\AssertionError $exception) {
+            assert_true('true is not false.' === $exception->getMessage(), 'default message for assert_false is not working');
+        }
+    }
+);
