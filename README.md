@@ -14,7 +14,7 @@ saeghe add git@github.com:saeghe/test-runner.git
 
 ## Documentation
 
-All documents can be found under [documentations](https://saeghe.com/packages/test-runnerTest/documentations/getting-started)
+All documents can be found under [documentations](https://saeghe.com/packages/test-runner/documentations/getting-started)
 
 ## Contributing
 
