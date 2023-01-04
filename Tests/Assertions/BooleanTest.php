@@ -2,6 +2,7 @@
 
 namespace Tests\Assertions\BooleanTest;
 
+use AssertionError;
 use function Saeghe\TestRunner\Assertions\Boolean\assert_false;
 use function Saeghe\TestRunner\Assertions\Boolean\assert_true;
 
@@ -12,7 +13,7 @@ test(
         try {
             assert_true(false, 'false is false not true');
             assert_true(false, 'assert_true for false is not working');
-        } catch (\AssertionError $exception) {
+        } catch (AssertionError $exception) {
             assert_true('false is false not true' === $exception->getMessage(), 'assert_true message is not working');
         }
     }
@@ -25,7 +26,7 @@ test(
         try {
             assert_false(true, 'true is true not false');
             assert_true(false, 'assert_false for true is not working');
-        } catch (\AssertionError $exception) {
+        } catch (AssertionError $exception) {
             assert_true('true is true not false' === $exception->getMessage(), 'assert_false message is not working');
         }
     }
@@ -37,7 +38,7 @@ test(
         try {
             assert_true(false);
             assert_true(false, 'assert_true for true is not working');
-        } catch (\AssertionError $exception) {
+        } catch (AssertionError $exception) {
             assert_true('false is not true.' === $exception->getMessage(), 'default message for assert_true is not working');
         }
     }
@@ -49,7 +50,7 @@ test(
         try {
             assert_false(true);
             assert_true(false, 'assert_true for true is not working');
-        } catch (\AssertionError $exception) {
+        } catch (AssertionError $exception) {
             assert_true('true is not false.' === $exception->getMessage(), 'default message for assert_false is not working');
         }
     }

@@ -2,6 +2,7 @@
 
 namespace Tests\Assertions;
 
+use AssertionError;
 use Saeghe\TestRunner\Assertions\File;
 use function Saeghe\TestRunner\Assertions\Boolean\assert_true;
 
@@ -13,7 +14,7 @@ test(
         try {
             File\assert_file_exists(__DIR__ .'/ThisFileIsNotExists.txt', 'assert_file_exists is not working properly!');
             assert_true(false, 'assert_file_exists is not working properly!');
-        } catch (\AssertionError $exception) {
+        } catch (AssertionError $exception) {
             assert_true('assert_file_exists is not working properly!' === $exception->getMessage(), 'assert_file_exists message is not working');
         }
     }
@@ -25,7 +26,7 @@ test(
         try {
             File\assert_file_exists(__DIR__ .'/ThisFileIsNotExists.txt');
             assert_true(false, 'assert_file_exists is not working properly!');
-        } catch (\AssertionError $exception) {
+        } catch (AssertionError $exception) {
             assert_true('File ' . __DIR__ .'/ThisFileIsNotExists.txt ' . 'does not exists.' === $exception->getMessage(), 'assert_file_exists message is not working');
         }
     }
@@ -39,7 +40,7 @@ test(
         try {
             File\assert_file_content($file, $content . 'addition', 'File has some additions!');
             assert_true(false, 'assert_file_content is not working properly!');
-        } catch (\AssertionError $exception) {
+        } catch (AssertionError $exception) {
             assert_true('File has some additions!' === $exception->getMessage(), 'assert_file_content message is not working');
         }
 
@@ -64,7 +65,7 @@ test(
         try {
             File\assert_file_content($file, $content . 'addition');
             assert_true(false, 'assert_file_content is not working properly!');
-        } catch (\AssertionError $exception) {
+        } catch (AssertionError $exception) {
             assert_true('Content of the ' . $file . ' is not equal to ' . $content . 'addition' === $exception->getMessage(), 'assert_file_content message is not working');
         }
 

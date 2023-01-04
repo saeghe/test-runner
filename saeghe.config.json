@@ -12,6 +12,11 @@
     },
     "packages-directory": "Packages",
     "packages": {
-        "https:\/\/github.com\/saeghe\/cli.git": "v2.1.0"
+        "https:\/\/github.com\/saeghe\/cli.git": "v3.0.0",
+        "https:\/\/github.com\/saeghe\/file-manager.git": "v2.0.0"
+    },
+    "aliases": {
+        "cli": "https:\/\/github.com\/saeghe\/cli.git",
+        "file-manager": "https:\/\/github.com\/saeghe\/file-manager.git"
     }
 }
