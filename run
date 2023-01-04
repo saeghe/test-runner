@@ -1,36 +1,12 @@
 #!/usr/bin/env php
 <?php
 
+use Saeghe\FileManager\Filesystem\Directory;
+use Saeghe\FileManager\Filesystem\File;
 use function Saeghe\Cli\IO\Read\parameter;
 use function Saeghe\Cli\IO\Write\error;
 use function Saeghe\Cli\IO\Write\line;
-
-$allFiles = function ($directory) use (&$allFiles) {
-    $files = [];
-    $items = scandir($directory);
-
-    foreach ($items as $key => $value) {
-        $path = realpath($directory . DIRECTORY_SEPARATOR . $value);
-
-        if (!is_dir($path)) {
-            $files[] = $path;
-        } else if ($value != "." && $value != "..") {
-            $files = array_merge($files, $allFiles($path));
-        }
-    }
-
-    return $files;
-};
-
-$testsDirectory = getcwd()  . '/' . parameter('directory', 'Tests') . '/';
-
-$files = $allFiles($testsDirectory);
-
-$filter = parameter('filter', '');
-
-$testFiles = array_filter($files, function ($filePath) use ($filter) {
-    return str_contains($filePath, $filter) && str_ends_with($filePath, 'Test.php');
-});
+use function Saeghe\FileManager\Resolver\root;
 
 static $statistics = ['cases' => 0, 'success' => 0, 'failed' => 0];
 
@@ -71,22 +47,17 @@ function test(string $title, Closure $case, ?Closure $before = null, ?Closure $a
     }
 }
 
-requireFiles($testFiles);
+$tests_directory = Directory::from_string(root() . parameter('directory', 'Tests'));
 
-function requireFiles($filePaths)
-{
-    array_walk(
-        $filePaths,
-        function ($filePath) {
-            require_once $filePath;
-        }
-    );
-}
+$filter = parameter('filter', '');
+
+$tests_directory->recursively()
+    ->files()
+    ->filter(fn (File $file) => str_contains($file->path->string(), $filter) && str_ends_with($file, 'Test.php'))
+    ->each(function (File $test_file) {
+        require $test_file->path->string();
+    });
 
 line(PHP_EOL . "cases: {$statistics['cases']}, success: {$statistics['success']}, failed: {$statistics['failed']}");
 
-if ($statistics['failed'] === 0) {
-    exit(0);
-} else {
-    exit(1);
-}
+exit($statistics['failed']);

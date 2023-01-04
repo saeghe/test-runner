@@ -2,6 +2,7 @@
 
 namespace Tests\FinallyHookTest;
 
+use AssertionError;
 use function Saeghe\Cli\IO\Write\success;
 use function Saeghe\TestRunner\Assertions\Boolean\assert_true;
 
@@ -11,7 +12,7 @@ test(
         assert_true(true);
         try {
             assert_true(false, 'failed message');
-        } catch (\AssertionError $exception) {
+        } catch (AssertionError $exception) {
             assert_true('failed message' === $exception->getMessage());
         }
     },

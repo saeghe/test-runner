@@ -2,6 +2,8 @@
 
 namespace Saeghe\TestRunner\Assertions\Boolean;
 
+use AssertionError;
+
 function assert_false(bool $actual, ?string $message = null): bool
 {
     $message = $message ?? 'true is not false.';
@@ -13,5 +15,5 @@ function assert_true(bool $actual, ?string $message = null): bool
 {
     $message = $message ?? 'false is not true.';
 
-    return $actual === true || throw new \AssertionError($message);
+    return $actual === true || throw new AssertionError($message);
 }
